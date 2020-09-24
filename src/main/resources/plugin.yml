@@ -1,0 +1,8 @@
+name: ThiefUlriam
+main: fr.hillwalk.thief.Thief
+version: 1.0
+author: HillWalk
+
+commands:
+  steal:
+    description: Principale commande.
