@@ -66,21 +66,37 @@ public class StealCommand implements CommandExecutor {
             }
 
             if(player.hasPermission("thief.admin")){
+                if(args[0].equalsIgnoreCase("reload")){
+
+
+                    //On verifie les joueurs déjà connecté au cas ou c'est un reload
+                    for(Player target : Bukkit.getServer().getOnlinePlayers()){
+
+                        Thief.instance.isThief.put(player.getUniqueId(), false);
+                        Thief.instance.stealing.put(player.getUniqueId(), false);
+                        config.setup(player);
+                    }
+
+
+                    return true;
+                }
+
+
             if(args[0].equalsIgnoreCase("list")){
 
 
-                System.out.println("plop1");
+
                 for(Player thief : Bukkit.getServer().getOnlinePlayers()){
-                    System.out.println("Joueurs");
+
 
                     if(config.getPlayer(thief).getBoolean("thief".toUpperCase())){
-                        System.out.println("Ajout du joueur");
+
                         voleurs.add(thief.getName());
                     }
 
                  }
 
-                System.out.println("Empty");
+
                 if(voleurs.isEmpty()){
 
                     player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("commandes.noThiefs")));

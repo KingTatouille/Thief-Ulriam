@@ -20,6 +20,10 @@ public class InventoryClick implements Listener {
         PlayersConfig config = new PlayersConfig();
 
 
+        if(config.getPlayer((Player) e.getView().getPlayer()).getBoolean("thief".toUpperCase())){
+            return;
+        }
+
         //On remplace le mot : %target% par le nom de la personne ciblé
             String word = Thief.instance.getConfig().getString("inventory.name");
             String replace = word.replaceAll("%target%", Thief.instance.target.get(e.getWhoClicked().getUniqueId()));
@@ -32,8 +36,6 @@ public class InventoryClick implements Listener {
 
             if(player.getName().equalsIgnoreCase(Thief.instance.target.get(e.getWhoClicked().getUniqueId()))){
                 player.getInventory().remove(e.getCurrentItem());
-                config.getPlayer((Player) e.getView().getPlayer()).set("thief".toUpperCase(), true);
-                config.save((Player) e.getView().getPlayer());
             }
 
         }

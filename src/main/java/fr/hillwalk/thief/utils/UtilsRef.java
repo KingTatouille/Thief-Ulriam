@@ -1,14 +1,10 @@
 package fr.hillwalk.thief.utils;
 
 import fr.hillwalk.thief.Thief;
-import fr.hillwalk.thief.guis.GuiSteal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,6 +39,21 @@ public class UtilsRef {
 
 
         return true;
+    }
+
+    //On ajoute les items dans la liste
+    public List<Material> materialList(){
+        List<Material> list = new ArrayList<>();
+
+        for(String str : Thief.instance.getConfig().getStringList("material")){
+
+            if(!list.contains(Material.valueOf(str.toUpperCase()))){
+                list.add(Material.valueOf(str.toUpperCase()));
+            }
+
+        }
+
+        return list;
     }
 
 

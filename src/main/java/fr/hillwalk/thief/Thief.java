@@ -5,8 +5,7 @@ import fr.hillwalk.thief.configs.Messages;
 import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.listener.InventoryClick;
 import fr.hillwalk.thief.listener.OnJoin;
-import fr.hillwalk.thief.listener.StealInteractionEvent;
-import fr.hillwalk.thief.utils.UtilsRef;
+import fr.hillwalk.thief.listener.InteractionPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class Thief extends JavaPlugin {
 
@@ -59,7 +57,7 @@ public class Thief extends JavaPlugin {
         //évènements
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new OnJoin(),this);
-        pm.registerEvents(new StealInteractionEvent(), this);
+        pm.registerEvents(new InteractionPlayer(), this);
         pm.registerEvents(new InventoryClick(), this);
 
 
