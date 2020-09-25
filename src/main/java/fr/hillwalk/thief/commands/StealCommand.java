@@ -1,7 +1,7 @@
 package fr.hillwalk.thief.commands;
 
 import fr.hillwalk.thief.Thief;
-import fr.hillwalk.thief.configs.JoinPlayers;
+import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,17 +9,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 public class StealCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         //On possède la classe util ici
         UtilsRef util = new UtilsRef();
-        JoinPlayers config = new JoinPlayers();
+        PlayersConfig config = new PlayersConfig();
 
         //Si le sender est un joueur
         if(sender instanceof Player){
@@ -48,8 +44,7 @@ public class StealCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("on")) {
 
                 player.sendMessage(Thief.prefix + "Vous pouvez maintenant voler certains biens !");
-                config.getPlayer(player).set("isThief", true);
-                config.save(player);
+                Thief.instance.isThief.put(player.getUniqueId(), true);
 
                 return true;
 
@@ -58,8 +53,7 @@ public class StealCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("off")){
 
                 player.sendMessage(Thief.prefix + "Vous ne pouvez plus rien voler !");
-                config.getPlayer(player).set("isThief", false);
-                config.save(player);
+                Thief.instance.isThief.put(player.getUniqueId(), false);
 
                 return true;
             }
@@ -71,7 +65,7 @@ public class StealCommand implements CommandExecutor {
 
                 for(Player thief : Bukkit.getServer().getOnlinePlayers()){
 
-                    if(config.getPlayer(thief).getBoolean("isThief")){
+                    if(Thief.instance.isThief.get(thief.getUniqueId())){
                         player.sendMessage(Thief.prefix + config.getPlayer(thief).getString("name"));
                     }
 

@@ -1,9 +1,14 @@
 package fr.hillwalk.thief.utils;
 
 import fr.hillwalk.thief.Thief;
+import fr.hillwalk.thief.guis.GuiSteal;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,6 +46,22 @@ public class UtilsRef {
     }
 
 
+    public boolean checkMaterial(){
+
+            for(String str : Thief.instance.getConfig().getStringList("material")){
+
+                if(Thief.instance.list.contains(new ItemStack(Material.matchMaterial(str.toUpperCase())))){
+
+                    return true;
+
+                }
+
+            }
+
+        return false;
+    }
+
+
     public Integer randomNumber(int number){
         Random rand = new Random();
 
@@ -48,6 +69,7 @@ public class UtilsRef {
         return rand.nextInt(number);
 
     }
+
 
 
 }

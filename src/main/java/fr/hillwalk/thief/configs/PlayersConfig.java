@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
-public class JoinPlayers {
+public class PlayersConfig {
 
 
 
@@ -40,8 +40,6 @@ public class JoinPlayers {
                 playerFile.createNewFile();
 
                 getPlayer(player).set("name", player.getName());
-                save(player);
-                getPlayer(player).set("isThief", false);
                 save(player);
 
             } catch (Exception e) {

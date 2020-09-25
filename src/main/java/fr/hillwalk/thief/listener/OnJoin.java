@@ -1,7 +1,7 @@
 package fr.hillwalk.thief.listener;
 
 import fr.hillwalk.thief.Thief;
-import fr.hillwalk.thief.configs.JoinPlayers;
+import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +13,7 @@ public class OnJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent e){
 
-        JoinPlayers getJoinPlayers = new JoinPlayers();
+        PlayersConfig getPlayersConfig = new PlayersConfig();
         UtilsRef util = new UtilsRef();
 
 
@@ -23,8 +23,9 @@ public class OnJoin implements Listener {
             try{
 
                 Thief.instance.getLogger().info("la personne n'est pas dans les fichiers, début de la création ...");
-                getJoinPlayers.setup(e.getPlayer());
-
+                getPlayersConfig.setup(e.getPlayer());
+                Thief.instance.isThief.put(e.getPlayer().getUniqueId(), false);
+                Thief.instance.stealing.put(e.getPlayer().getUniqueId(), false);
 
             } catch(NullPointerException ex){
 

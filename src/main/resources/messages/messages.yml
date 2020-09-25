@@ -1,0 +1,4 @@
+bossbar:
+  pressShift: "Psst ! Restez accroupi !"
+  name: "Vol en cours : %number%"
+inventory:

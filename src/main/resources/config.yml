@@ -1,2 +1,16 @@
 #Prefix
 prefix: "&6&lUlriam &7&l>>&r"
+
+#Les secondes que le joueur doit attendre pour voler quelque chose.
+seconds: 5
+
+#Inventaire quand la personne vol
+inventory:
+  name: "Items de %target_player%"
+  size: 9
+
+#Les items non voulus
+material:
+  - Dirt
+  - Grass_block
+  - oak_Log
