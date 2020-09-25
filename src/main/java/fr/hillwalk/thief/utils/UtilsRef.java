@@ -46,22 +46,6 @@ public class UtilsRef {
     }
 
 
-    public boolean checkMaterial(){
-
-            for(String str : Thief.instance.getConfig().getStringList("material")){
-
-                if(Thief.instance.list.contains(new ItemStack(Material.matchMaterial(str.toUpperCase())))){
-
-                    return true;
-
-                }
-
-            }
-
-        return false;
-    }
-
-
     public Integer randomNumber(int number){
         Random rand = new Random();
 

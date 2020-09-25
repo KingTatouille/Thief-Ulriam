@@ -2,6 +2,8 @@ package fr.hillwalk.thief;
 
 import fr.hillwalk.thief.commands.StealCommand;
 import fr.hillwalk.thief.configs.Messages;
+import fr.hillwalk.thief.configs.PlayersConfig;
+import fr.hillwalk.thief.listener.InventoryClick;
 import fr.hillwalk.thief.listener.OnJoin;
 import fr.hillwalk.thief.listener.StealInteractionEvent;
 import fr.hillwalk.thief.utils.UtilsRef;
@@ -29,14 +31,15 @@ public class Thief extends JavaPlugin {
     public HashMap<UUID, Boolean> isThief = new HashMap<UUID, Boolean>();
     public HashMap<UUID, Boolean> stealing = new HashMap<UUID, Boolean>();
     public HashMap<UUID, Inventory> invStealed = new HashMap<UUID, Inventory>();
-    public List<ItemStack> list = new ArrayList<ItemStack>();
+    public HashMap<UUID, String> target = new HashMap<UUID, String>();
 
     //List
-
+    public List<ItemStack> list = new ArrayList<ItemStack>();
 
 
     @Override
     public void onEnable(){
+
 
         //On instantie
         instance = this;
@@ -57,20 +60,20 @@ public class Thief extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new OnJoin(),this);
         pm.registerEvents(new StealInteractionEvent(), this);
-
-
-        //Première fois que je met ça comme ça.
-        UtilsRef util = new UtilsRef();
+        pm.registerEvents(new InventoryClick(), this);
 
 
         prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix") + " ");
 
+
+        PlayersConfig config = new PlayersConfig();
 
         //On verifie les joueurs déjà connecté au cas ou c'est un reload
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
 
             isThief.put(player.getUniqueId(), false);
             stealing.put(player.getUniqueId(), false);
+            config.setup(player);
 
 
         }

@@ -2,6 +2,7 @@ package fr.hillwalk.thief.listener;
 
 import fr.hillwalk.thief.Thief;
 import fr.hillwalk.thief.configs.Messages;
+import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.guis.GuiSteal;
 import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
@@ -18,6 +19,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
@@ -42,7 +44,7 @@ public class StealInteractionEvent implements Listener {
         if(Thief.instance.stealing.get(e.getPlayer().getUniqueId()))return;
 
         //Instance
-        final GuiSteal gui = new GuiSteal();
+        final GuiSteal gui = new GuiSteal(((Player) e.getRightClicked()));
         final UtilsRef util = new UtilsRef();
 
 
@@ -56,8 +58,9 @@ public class StealInteractionEvent implements Listener {
             //Final variables
             final BossBar bossBar = Bukkit.createBossBar(null, BarColor.RED, BarStyle.SEGMENTED_10, BarFlag.DARKEN_SKY);
             final Inventory invTarget = ((Player) e.getRightClicked()).getInventory();
-            final Inventory inv = e.getPlayer().getInventory();
             final Player player = e.getPlayer();
+
+            Thief.instance.target.put(player.getUniqueId(), ((Player) e.getRightClicked()).getName());
 
             //La personne est en train de voler
             Thief.instance.stealing.put(player.getUniqueId(), true);
@@ -113,6 +116,9 @@ public class StealInteractionEvent implements Listener {
 
 
                         player.openInventory(Thief.instance.invStealed.get(player.getUniqueId()));
+                        Thief.instance.list.clear();
+
+
                         //La personne est dans l'inventaire
                         Thief.instance.stealing.put(player.getUniqueId(), false);
 
@@ -137,33 +143,10 @@ public class StealInteractionEvent implements Listener {
             bossBar.addPlayer(e.getPlayer());
 
 
-
-
-
-        }
+             }
         }
 
     }
-
-
-
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void inventoryClick(InventoryClickEvent e){
-
-
-        if(e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Thief.instance.getConfig().getString("inventory.name")))){
-
-
-
-
-        }
-
-
-    }
-
-
-
-
 
 
 }

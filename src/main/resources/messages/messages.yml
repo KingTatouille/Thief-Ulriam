@@ -1,4 +1,9 @@
 bossbar:
   pressShift: "Psst ! Restez accroupi !"
   name: "Vol en cours : %number%"
-inventory:
+commandes:
+  stealOn: "Vous venez d'activer la capacité du voleur."
+  stealOff: "Vous venez de désactiver la capacité du voleur."
+  syntax: "Syntax : /steal on/off"
+  liste: "Voici la liste des voleurs :"
+  noThiefs: "Il n'y a aucun voleur."

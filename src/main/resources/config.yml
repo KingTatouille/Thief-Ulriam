@@ -6,7 +6,7 @@ seconds: 5
 
 #Inventaire quand la personne vol
 inventory:
-  name: "Items de %target_player%"
+  name: "Items de %target%"
   size: 9
 
 #Les items non voulus
