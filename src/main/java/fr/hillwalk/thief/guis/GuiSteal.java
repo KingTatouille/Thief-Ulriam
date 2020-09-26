@@ -2,6 +2,7 @@ package fr.hillwalk.thief.guis;
 
 import fr.hillwalk.thief.Thief;
 import fr.hillwalk.thief.configs.Messages;
+import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -55,6 +56,17 @@ public class GuiSteal {
 
 
         Thief.instance.invStealed.put(ent.getUniqueId(), inv);
+
+
+    }
+
+    public void inventoryReset(final HumanEntity ent) {
+
+
+        Thief.instance.invStealed.remove(ent.getUniqueId());
+        Thief.instance.target.remove(ent.getUniqueId());
+        Thief.instance.targetId.remove(ent.getUniqueId());
+
 
 
     }

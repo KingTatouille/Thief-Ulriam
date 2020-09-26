@@ -72,10 +72,27 @@ public class StealCommand implements CommandExecutor {
                     //On verifie les joueurs déjà connecté au cas ou c'est un reload
                     for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
-                        Thief.instance.isThief.put(player.getUniqueId(), false);
-                        Thief.instance.stealing.put(player.getUniqueId(), false);
+
+                        Thief.instance.isThief.put(target.getUniqueId(), false);
+                        Thief.instance.stealing.put(target.getUniqueId(), false);
                         config.setup(player);
+
                     }
+
+                    Thief.instance.getLogger().info("Initialisation des données ...");
+                    Thief.instance.list.clear();
+                    Thief.instance.target.clear();
+                    Thief.instance.invStealed.clear();
+                    Thief.instance.itemStealed.clear();
+                    Thief.instance.targetId.clear();
+                    Thief.instance.getLogger().info("Données READY !");
+
+                    Thief.instance.reloadConfig();
+                    Thief.instance.saveDefaultConfig();
+
+                    Thief.prefix = ChatColor.translateAlternateColorCodes('&', Thief.instance.getConfig().getString("prefix") + " ");
+
+                    player.sendMessage(Thief.prefix + "Le plugin est de nouveau opérationnel !");
 
 
                     return true;

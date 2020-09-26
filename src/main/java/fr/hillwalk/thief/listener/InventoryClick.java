@@ -2,13 +2,16 @@ package fr.hillwalk.thief.listener;
 
 import fr.hillwalk.thief.Thief;
 import fr.hillwalk.thief.configs.PlayersConfig;
+import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 public class InventoryClick implements Listener {
@@ -18,37 +21,50 @@ public class InventoryClick implements Listener {
 
 
         PlayersConfig config = new PlayersConfig();
+        UtilsRef util = new UtilsRef();
 
+    try{
+        if(e.getView().getTitle().equalsIgnoreCase(util.replaceName((Player) e.getWhoClicked()))){
 
-        if(config.getPlayer((Player) e.getView().getPlayer()).getBoolean("thief".toUpperCase())){
+        //On cancel l'action
+        e.setCancelled(true);
+
+        //Si l'item est null alors on return, si il est bon on ajoute
+        if(e.getCurrentItem() == null){
+            //On clear l'inventaire
+            Thief.instance.invStealed.get(e.getWhoClicked().getUniqueId());
             return;
+        } else {
+            e.getView().getPlayer().getInventory().addItem(e.getCurrentItem());
         }
 
-        //On remplace le mot : %target% par le nom de la personne ciblé
-            String word = Thief.instance.getConfig().getString("inventory.name");
-            String replace = word.replaceAll("%target%", Thief.instance.target.get(e.getWhoClicked().getUniqueId()));
-
-        if(e.getView().getTitle().equalsIgnoreCase(replace)){
-
-        e.setCancelled(true);
-        e.getView().getPlayer().getInventory().addItem(e.getCurrentItem());
+        //On verifie tout les joueurs et ensuite on retire l'item pris
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
 
             if(player.getName().equalsIgnoreCase(Thief.instance.target.get(e.getWhoClicked().getUniqueId()))){
                 player.getInventory().remove(e.getCurrentItem());
+                Thief.instance.itemStealed.put(e.getWhoClicked().getUniqueId(), e.getCurrentItem());
             }
 
         }
 
             e.getView().getPlayer().closeInventory();
+            //On clear l'inventaire
+            Thief.instance.invStealed.get(e.getWhoClicked().getUniqueId()).clear();
+
+            Thief.instance.list.clear();
 
 
 
         }
 
+    } catch (NullPointerException ex){
 
+        ex.getStackTrace();
+    }
 
     }
+
 
 
 

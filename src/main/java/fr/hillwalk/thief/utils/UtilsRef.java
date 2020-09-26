@@ -1,10 +1,12 @@
 package fr.hillwalk.thief.utils;
 
 import fr.hillwalk.thief.Thief;
+import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,6 +56,35 @@ public class UtilsRef {
         }
 
         return list;
+    }
+
+
+    public String replaceName(Player player){
+
+            //On remplace le mot : %target% par le nom de la personne ciblé
+            String word = Thief.instance.getConfig().getString("inventory.name");
+            String replace = word.replaceAll("%target%", Thief.instance.target.get(player.getUniqueId()));
+            return replace;
+
+    }
+
+    public Boolean checkItem(ItemStack item){
+
+        System.out.println(Thief.instance.list);
+
+        for(int i = 0; i < Thief.instance.list.size(); i++){
+
+            System.out.println(item);
+            if(Thief.instance.list.contains(item)){
+
+                System.out.println(item);
+                return true;
+
+            }
+
+        }
+
+        return false;
     }
 
 

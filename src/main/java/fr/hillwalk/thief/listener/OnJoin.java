@@ -17,6 +17,9 @@ public class OnJoin implements Listener {
         UtilsRef util = new UtilsRef();
 
 
+        Thief.instance.isThief.put(e.getPlayer().getUniqueId(), false);
+        Thief.instance.stealing.put(e.getPlayer().getUniqueId(), false);
+
         //Si la personne vient pour la première fois sur le serveur alors on l'enregistre en uuid.yml
         if(!(e.getPlayer().hasPlayedBefore()) || util.checkPlayer(e.getPlayer().getUniqueId()) == false){
 
@@ -24,8 +27,7 @@ public class OnJoin implements Listener {
 
                 Thief.instance.getLogger().info("la personne n'est pas dans les fichiers, début de la création ...");
                 getPlayersConfig.setup(e.getPlayer());
-                Thief.instance.isThief.put(e.getPlayer().getUniqueId(), false);
-                Thief.instance.stealing.put(e.getPlayer().getUniqueId(), false);
+
 
             } catch(NullPointerException ex){
 

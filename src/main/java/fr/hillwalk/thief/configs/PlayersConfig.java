@@ -41,7 +41,7 @@ public class PlayersConfig {
 
                 getPlayer(player).set("name", player.getName());
                 save(player);
-                getPlayer(player).set("thief".toUpperCase(), player.getName());
+                getPlayer(player).set("thief".toUpperCase(), false);
                 save(player);
 
             } catch (Exception e) {

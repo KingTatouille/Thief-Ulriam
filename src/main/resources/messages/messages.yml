@@ -7,3 +7,5 @@ commandes:
   syntax: "Syntax : /steal on/off"
   liste: "Voici la liste des voleurs :"
   noThiefs: "Il n'y a aucun voleur."
+cancelled:
+  deathPlayer: "Le joueur vient de mourir, faites ça plus tard !"

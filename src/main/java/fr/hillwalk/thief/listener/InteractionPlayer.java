@@ -61,9 +61,13 @@ public class InteractionPlayer implements Listener {
                 final Player player = e.getPlayer();
 
                 Thief.instance.target.put(player.getUniqueId(), ((Player) e.getRightClicked()).getName());
+                Thief.instance.target.put(((Player) e.getRightClicked()).getUniqueId(), e.getPlayer().getName());
 
                 //La personne est en train de voler
                 Thief.instance.stealing.put(player.getUniqueId(), true);
+
+                //On obtient l'unique id du joueur qui se fait actuellement voler et son contraire
+                Thief.instance.targetId.put(((Player) e.getRightClicked()).getUniqueId(), player.getUniqueId());
 
 
                 //Contenu RUNNABLE
@@ -71,6 +75,8 @@ public class InteractionPlayer implements Listener {
                     int seconds = Thief.instance.getConfig().getInt("seconds");
                     int secondesMax = Thief.instance.getConfig().getInt("seconds");
                     int secondes = 1;
+                    int itemsSlot = 0;
+                    Random rand = new Random();
 
 
                     @Override
@@ -92,6 +98,7 @@ public class InteractionPlayer implements Listener {
                             bossBar.removeAll();
                             gui.inventorySet(player);
 
+
                             for(ItemStack item : invTarget.getContents()){
 
                                     if(item != null){
@@ -110,17 +117,27 @@ public class InteractionPlayer implements Listener {
 
                             for(ItemStack item : Thief.instance.list){
 
-                                Thief.instance.invStealed.get(player.getUniqueId()).addItem(item);
+                                if(rand.nextInt(2) == 1){
+                                    item.setType(Material.AIR);
+                                } else {
+
+                                }
+
+                                Thief.instance.invStealed.get(player.getUniqueId()).setItem(itemsSlot, item);
+                                itemsSlot++;
 
                             }
 
 
+                            //On ouvre l'inventaire instancié au voleur
                             player.openInventory(Thief.instance.invStealed.get(player.getUniqueId()));
-                            Thief.instance.list.clear();
-
 
                             //La personne est dans l'inventaire
                             Thief.instance.stealing.put(player.getUniqueId(), false);
+
+                            //Effacement de la liste contenant les matériaux.
+                            Thief.instance.list.clear();
+
 
                         } else {
                             try{
