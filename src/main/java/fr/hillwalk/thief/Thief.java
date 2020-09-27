@@ -6,6 +6,7 @@ import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.listener.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +30,11 @@ public class Thief extends JavaPlugin {
     public HashMap<UUID, Inventory> invStealed = new HashMap<UUID, Inventory>();
     public HashMap<UUID, String> target = new HashMap<UUID, String>();
     public HashMap<UUID, UUID> targetId = new HashMap<UUID, UUID>();
+    public HashMap<UUID, Player> takePlayer = new HashMap<UUID, Player>();
     public HashMap<UUID, ItemStack> itemStealed = new HashMap<UUID, ItemStack>();
+    public HashMap<UUID, Integer> taskId = new HashMap<UUID, Integer>();
+    public HashMap<UUID, BossBar> bossBar = new HashMap<UUID, BossBar>();
+
 
     //List
     public List<ItemStack> list = new ArrayList<ItemStack>();
@@ -61,6 +66,7 @@ public class Thief extends JavaPlugin {
         pm.registerEvents(new InventoryClick(), this);
         pm.registerEvents(new PlayerDrop(), this);
         pm.registerEvents(new PlayerDeath(), this);
+        pm.registerEvents(new PlayerMovements(), this);
 
 
         prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix") + " ");

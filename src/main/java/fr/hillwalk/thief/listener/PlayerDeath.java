@@ -16,9 +16,8 @@ public class PlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerDie(PlayerDeathEvent e){
 
-
-
         if(e.getEntity() instanceof Player){
+
 
             UtilsRef util = new UtilsRef();
             GuiSteal gui = new GuiSteal(e.getEntity());
@@ -34,7 +33,7 @@ public class PlayerDeath implements Listener {
                         target.closeInventory();
 
                         //On envoit un message au voleur
-                        target.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("cancelled.dropItem")));
+                        target.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("cancelled.deathPlayer")));
 
                         //On reset l'inventaire ayant eu une intéraction
                         gui.inventoryReset(target);

@@ -25,7 +25,6 @@ public class PlayerDrop implements Listener {
 
         //On prend le nom de la personne volé
         if(e.getPlayer().getName().equalsIgnoreCase(Thief.instance.target.get(Thief.instance.targetId.get(e.getPlayer().getUniqueId())))){
-            System.out.println("1");
 
             for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
@@ -36,6 +35,7 @@ public class PlayerDrop implements Listener {
 
                         //On regarde si l'item n'est pas null (AIR)
                         if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i) != null){
+
 
                             //Si les deux items se correspondent alors on effectue les actions.
                             if(e.getItemDrop().getItemStack().getType().equals(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType())){
@@ -51,9 +51,6 @@ public class PlayerDrop implements Listener {
 
 
                     }
-
-                    return;
-
                 }
 
 

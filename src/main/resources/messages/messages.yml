@@ -9,3 +9,4 @@ commandes:
   noThiefs: "Il n'y a aucun voleur."
 cancelled:
   deathPlayer: "Le joueur vient de mourir, faites ça plus tard !"
+  distancePlayer: "Le joueur s'est éloigné de vous."

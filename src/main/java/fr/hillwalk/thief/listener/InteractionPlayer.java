@@ -7,6 +7,7 @@ import fr.hillwalk.thief.guis.GuiSteal;
 import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -34,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class InteractionPlayer implements Listener {
 
     private BukkitTask task;
+
 
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -69,9 +71,13 @@ public class InteractionPlayer implements Listener {
                 //On obtient l'unique id du joueur qui se fait actuellement voler et son contraire
                 Thief.instance.targetId.put(((Player) e.getRightClicked()).getUniqueId(), player.getUniqueId());
 
+                //On prend le joueur cette fois
+                Thief.instance.takePlayer.put(((Player) e.getRightClicked()).getUniqueId(), e.getPlayer());
+
 
                 //Contenu RUNNABLE
                 this.task = new BukkitRunnable() {
+
                     int seconds = Thief.instance.getConfig().getInt("seconds");
                     int secondesMax = Thief.instance.getConfig().getInt("seconds");
                     int secondes = 1;
@@ -82,6 +88,11 @@ public class InteractionPlayer implements Listener {
                     @Override
                     public void run() {
 
+                        if (seconds == seconds) {
+                            Thief.instance.taskId.put(player.getUniqueId(), getTaskId());
+                            Thief.instance.bossBar.put(player.getUniqueId(), bossBar);
+                        }
+
                         if(!player.isSneaking()) {
 
                             player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("bossbar.pressShift")));
@@ -89,13 +100,13 @@ public class InteractionPlayer implements Listener {
                             //La personne s'arrête de voler
                             Thief.instance.stealing.put(player.getUniqueId(), false);
 
-                            bossBar.removeAll();
+                            bossBar.removePlayer(player);
                             this.cancel();
                         }
 
                         if ((seconds -= 1) == 0) {
                             task.cancel();
-                            bossBar.removeAll();
+                            bossBar.removePlayer(player);
                             gui.inventorySet(player);
 
 
@@ -156,8 +167,10 @@ public class InteractionPlayer implements Listener {
                     }
                 }.runTaskTimer(Thief.instance, 0, 20);
 
+
                 bossBar.setVisible(true);
                 bossBar.addPlayer(e.getPlayer());
+
 
 
             }
