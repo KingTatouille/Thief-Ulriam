@@ -110,13 +110,24 @@ public class InteractionPlayer implements Listener {
                             gui.inventorySet(player);
 
 
+
+
                             for(ItemStack item : invTarget.getContents()){
 
                                     if(item != null){
+                                        System.out.println("Names : " + util.checkItemsNames(item));
+                                        System.out.println("Lore : " + util.checkItemsLore(item));
                                         if(!util.materialList().contains(item.getType())){
 
-                                            Thief.instance.list.add(item);
+                                            if(!util.checkItemsNames(item)){
 
+                                                Thief.instance.list.add(item);
+
+                                            } else if(!util.checkItemsLore(item)){
+
+                                                Thief.instance.list.add(item);
+
+                                            }
                                         }
 
                                     } else {

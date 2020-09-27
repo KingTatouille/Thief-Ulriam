@@ -1,6 +1,7 @@
 package fr.hillwalk.thief.utils;
 
 import fr.hillwalk.thief.Thief;
+import fr.hillwalk.thief.configs.Items;
 import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,24 +69,6 @@ public class UtilsRef {
 
     }
 
-    public Boolean checkItem(ItemStack item){
-
-        System.out.println(Thief.instance.list);
-
-        for(int i = 0; i < Thief.instance.list.size(); i++){
-
-            System.out.println(item);
-            if(Thief.instance.list.contains(item)){
-
-                System.out.println(item);
-                return true;
-
-            }
-
-        }
-
-        return false;
-    }
 
 
     public Integer randomNumber(int number){
@@ -97,5 +80,58 @@ public class UtilsRef {
     }
 
 
+    //On va CHECKER tous les items
+    public boolean checkItemsNames(ItemStack item){
+
+
+        for (String string : Items.getItems().getConfigurationSection("items").getKeys(false)) {
+            String name = Items.getItems().getString("items." + string + ".name");
+
+            if(item.getItemMeta().getDisplayName() != null){
+                if(item.getItemMeta().getDisplayName().equalsIgnoreCase(name)){
+
+                    return true;
+
+                }
+            } else {
+                continue;
+            }
+
+
+        }
+
+        return false;
+
+    }
+
+
+    //On va CHECKER tous les items
+    public boolean checkItemsLore(ItemStack item){
+
+
+        for (String string : Items.getItems().getConfigurationSection("items").getKeys(false)) {
+            List<String> lore = Items.getItems().getStringList("items." + string + ".lore");
+
+
+            if(item.getItemMeta().getLore() != null){
+
+                for(String str : lore){
+
+                    if(item.getItemMeta().getLore().contains(str)){
+                        return true;
+                    }
+
+                }
+
+
+            } else {
+                continue;
+            }
+
+        }
+
+        return false;
+
+    }
 
 }

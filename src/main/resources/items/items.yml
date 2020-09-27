@@ -1,0 +1,7 @@
+items:
+  ITEM_TEST:
+    name: "épée du test"
+    material: IRON_SWORD
+    lore:
+      - "Il est possible que ça marche"
+      - "ligne 2"

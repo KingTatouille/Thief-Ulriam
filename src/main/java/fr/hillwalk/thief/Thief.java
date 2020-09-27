@@ -1,6 +1,7 @@
 package fr.hillwalk.thief;
 
-import fr.hillwalk.thief.commands.StealCommand;
+import fr.hillwalk.thief.commands.Commandes;
+import fr.hillwalk.thief.configs.Items;
 import fr.hillwalk.thief.configs.Messages;
 import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.listener.*;
@@ -33,6 +34,8 @@ public class Thief extends JavaPlugin {
     public HashMap<UUID, Player> takePlayer = new HashMap<UUID, Player>();
     public HashMap<UUID, ItemStack> itemStealed = new HashMap<UUID, ItemStack>();
     public HashMap<UUID, Integer> taskId = new HashMap<UUID, Integer>();
+
+    //Si le joueur ne peut pas enlever la barboss
     public HashMap<UUID, BossBar> bossBar = new HashMap<UUID, BossBar>();
 
 
@@ -56,8 +59,11 @@ public class Thief extends JavaPlugin {
         //Messages
         Messages.setup();
 
+        //Items
+        Items.setup();
+
         //Commandes
-        getCommand("steal").setExecutor(new StealCommand());
+        getCommand("steal").setExecutor(new Commandes());
 
         //évènements
         PluginManager pm = getServer().getPluginManager();

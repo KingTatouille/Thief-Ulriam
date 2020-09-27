@@ -41,7 +41,6 @@ public class Messages {
                 e.printStackTrace();
             }
 
-
         }
 
         messages = YamlConfiguration.loadConfiguration(messageFiles);
@@ -67,12 +66,9 @@ public class Messages {
 
     public static void reload() throws UnsupportedEncodingException {
         if (messageFiles == null) {
-            messageFiles = new File(messageFilesIn, "informations.yml");
+            messageFiles = new File(messageFilesIn, "messages.yml");
         }
         messages = YamlConfiguration.loadConfiguration(messageFiles);
-
-
-
     }
 
 }
