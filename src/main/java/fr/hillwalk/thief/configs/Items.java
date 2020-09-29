@@ -64,7 +64,7 @@ public class Items {
         }
     }
 
-    public static void reload() throws UnsupportedEncodingException {
+    public static void reload() {
         if (itemsFiles == null) {
             itemsFiles = new File(itemsFilesIn, "items.yml");
         }

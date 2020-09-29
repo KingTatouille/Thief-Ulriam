@@ -1,5 +1,6 @@
 bossbar:
   pressShift: "Psst ! Restez accroupi !"
+  distance: "Hey ! Ne vous éloignez pas !"
   name: "Vol en cours : %number%"
 commandes:
   stealOn: "Vous venez d'activer la capacité du voleur."

@@ -64,8 +64,7 @@ public class GuiSteal {
 
 
         Thief.instance.invStealed.remove(ent.getUniqueId());
-        Thief.instance.target.remove(ent.getUniqueId());
-        Thief.instance.targetId.remove(ent.getUniqueId());
+        Thief.instance.takePlayer.remove(ent.getUniqueId());
 
 
 

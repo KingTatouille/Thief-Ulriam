@@ -64,7 +64,7 @@ public class Messages {
         }
     }
 
-    public static void reload() throws UnsupportedEncodingException {
+    public static void reload() {
         if (messageFiles == null) {
             messageFiles = new File(messageFilesIn, "messages.yml");
         }

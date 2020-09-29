@@ -26,6 +26,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 
 import javax.swing.*;
@@ -62,26 +63,22 @@ public class InteractionPlayer implements Listener {
                 final Inventory invTarget = ((Player) e.getRightClicked()).getInventory();
                 final Player player = e.getPlayer();
 
-                Thief.instance.target.put(player.getUniqueId(), ((Player) e.getRightClicked()).getName());
-                Thief.instance.target.put(((Player) e.getRightClicked()).getUniqueId(), e.getPlayer().getName());
-
                 //La personne est en train de voler
                 Thief.instance.stealing.put(player.getUniqueId(), true);
 
-                //On obtient l'unique id du joueur qui se fait actuellement voler et son contraire
-                Thief.instance.targetId.put(((Player) e.getRightClicked()).getUniqueId(), player.getUniqueId());
-
                 //On prend le joueur cette fois
                 Thief.instance.takePlayer.put(((Player) e.getRightClicked()).getUniqueId(), e.getPlayer());
+                Thief.instance.takePlayer.put(player.getUniqueId(), ((Player) e.getRightClicked()));
 
 
                 //Contenu RUNNABLE
                 this.task = new BukkitRunnable() {
 
-                    int seconds = Thief.instance.getConfig().getInt("seconds");
-                    int secondesMax = Thief.instance.getConfig().getInt("seconds");
+                    int seconds = Thief.instance.getConfig().getInt("seconds") * 4;
+                    int secondesMax = Thief.instance.getConfig().getInt("seconds") * 4;
                     int secondes = 1;
                     int itemsSlot = 0;
+                    Location loc = e.getRightClicked().getLocation();
                     Random rand = new Random();
 
 
@@ -93,37 +90,41 @@ public class InteractionPlayer implements Listener {
                             Thief.instance.bossBar.put(player.getUniqueId(), bossBar);
                         }
 
-                        if(!player.isSneaking()) {
+                        if(Thief.instance.getConfig().getBoolean("debugDistance")){
+                            System.out.println(e.getPlayer().getLocation().distanceSquared(loc));
+                        }
 
-                            player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("bossbar.pressShift")));
+                        if(e.getPlayer().getLocation().distanceSquared(loc) > Thief.instance.getConfig().getInt("distance")) {
 
-                            //La personne s'arrête de voler
-                            Thief.instance.stealing.put(player.getUniqueId(), false);
+                            player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("bossbar.distance")));
 
+                            util.resetAll(player);
                             bossBar.removePlayer(player);
                             this.cancel();
                         }
 
+                        if(!player.isSneaking() && seconds >= 5) {
+
+                            player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("bossbar.pressShift")));
+
+                            util.resetAll(player);
+                            bossBar.removePlayer(player);
+                            this.cancel();
+
+                        }
+
                         if ((seconds -= 1) == 0) {
-                            task.cancel();
+                            this.cancel();
                             bossBar.removePlayer(player);
                             gui.inventorySet(player);
-
-
 
 
                             for(ItemStack item : invTarget.getContents()){
 
                                     if(item != null){
-                                        System.out.println("Names : " + util.checkItemsNames(item));
-                                        System.out.println("Lore : " + util.checkItemsLore(item));
                                         if(!util.materialList().contains(item.getType())){
 
-                                            if(!util.checkItemsNames(item)){
-
-                                                Thief.instance.list.add(item);
-
-                                            } else if(!util.checkItemsLore(item)){
+                                            if(!util.checkItemsLore(item)){
 
                                                 Thief.instance.list.add(item);
 
@@ -150,7 +151,6 @@ public class InteractionPlayer implements Listener {
 
                             }
 
-
                             //On ouvre l'inventaire instancié au voleur
                             player.openInventory(Thief.instance.invStealed.get(player.getUniqueId()));
 
@@ -175,8 +175,10 @@ public class InteractionPlayer implements Listener {
                                 e.getStackTrace();
                             }
                         }
+
+
                     }
-                }.runTaskTimer(Thief.instance, 0, 20);
+                }.runTaskTimer(Thief.instance, 0, 5);
 
 
                 bossBar.setVisible(true);

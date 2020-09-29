@@ -1,6 +1,7 @@
 package fr.hillwalk.thief.commands;
 
 import fr.hillwalk.thief.Thief;
+import fr.hillwalk.thief.configs.Items;
 import fr.hillwalk.thief.configs.Messages;
 import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.utils.UtilsRef;
@@ -72,27 +73,34 @@ public class Commandes implements CommandExecutor {
                     //On verifie les joueurs déjà connecté au cas ou c'est un reload
                     for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
-
-                        Thief.instance.isThief.put(target.getUniqueId(), false);
-                        Thief.instance.stealing.put(target.getUniqueId(), false);
                         config.setup(player);
 
                     }
 
                     Thief.instance.getLogger().info("Initialisation des données ...");
-                    Thief.instance.list.clear();
-                    Thief.instance.target.clear();
-                    Thief.instance.invStealed.clear();
-                    Thief.instance.itemStealed.clear();
-                    Thief.instance.targetId.clear();
+                    //On reset toutes les HASHMAPS
+                    util.resetAll(player);
                     Thief.instance.getLogger().info("Données READY !");
 
+                    //Sauvegarde de la config et actualisation.
                     Thief.instance.reloadConfig();
                     Thief.instance.saveDefaultConfig();
+                    Thief.instance.getLogger().info("Reload de la config : CHECK");
+
+                    //Sauvegarde des messages et actualisation.
+                    Messages.save();
+                    Messages.reload();
+                    Thief.instance.getLogger().info("Reload des messages : CHECK");
+
+                    //Sauvegarde des items et actualisation.
+                    Items.save();
+                    Items.reload();
+                    Thief.instance.getLogger().info("Reload des items : CHECK");
+
 
                     Thief.prefix = ChatColor.translateAlternateColorCodes('&', Thief.instance.getConfig().getString("prefix") + " ");
 
-                    player.sendMessage(Thief.prefix + "Le plugin est de nouveau opérationnel !");
+                    player.sendMessage(Thief.prefix + "Le reload est fait !");
 
 
                     return true;

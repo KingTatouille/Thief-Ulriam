@@ -17,19 +17,21 @@ import javax.rmi.CORBA.Util;
 
 public class PlayerDrop implements Listener {
 
-    @EventHandler (priority = EventPriority.LOW)
+    @EventHandler (priority = EventPriority.NORMAL)
     public void playerDropItem(PlayerDropItemEvent e){
 
-        UtilsRef util = new UtilsRef();
-        GuiSteal gui = new GuiSteal(e.getPlayer());
+
+        if(Thief.instance.takePlayer.get(e.getPlayer().getUniqueId()) == null){
+            return;
+        }
 
         //On prend le nom de la personne volé
-        if(e.getPlayer().getName().equalsIgnoreCase(Thief.instance.target.get(Thief.instance.targetId.get(e.getPlayer().getUniqueId())))){
+        if(e.getPlayer().getName().equalsIgnoreCase(Thief.instance.takePlayer.get(Thief.instance.takePlayer.get(e.getPlayer().getUniqueId())).getName())){
 
             for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
                 //On prend le nom du voleur
-                if(target.getName().equalsIgnoreCase(Thief.instance.target.get(e.getPlayer().getUniqueId()))){
+                if(target.getName().equalsIgnoreCase(Thief.instance.takePlayer.get(e.getPlayer().getUniqueId()).getName())){
 
                     for(int i = 0; i <= Thief.instance.getConfig().getInt("inventory.size") - 1; i++){
 

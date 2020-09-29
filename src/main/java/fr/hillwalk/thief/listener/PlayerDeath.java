@@ -18,16 +18,19 @@ public class PlayerDeath implements Listener {
 
         if(e.getEntity() instanceof Player){
 
+            if(Thief.instance.takePlayer.get(e.getEntity().getUniqueId()) == null){
+                return;
+            }
 
             UtilsRef util = new UtilsRef();
             GuiSteal gui = new GuiSteal(e.getEntity());
 
-            if(e.getEntity().getName().equalsIgnoreCase(Thief.instance.target.get(Thief.instance.targetId.get(e.getEntity().getUniqueId())))){
+            if(e.getEntity().getName().equalsIgnoreCase(Thief.instance.takePlayer.get(Thief.instance.takePlayer.get(e.getEntity().getUniqueId())).getName())){
 
                 for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
                     //On prend le nom du voleur
-                    if(target.getName().equalsIgnoreCase(Thief.instance.target.get(e.getEntity().getUniqueId()))){
+                    if(target.getName().equalsIgnoreCase(Thief.instance.takePlayer.get(e.getEntity().getUniqueId()).getName())){
 
                         //On ferme l'inventaire
                         target.closeInventory();

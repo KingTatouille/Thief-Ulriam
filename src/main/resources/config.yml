@@ -4,12 +4,14 @@ prefix: "&6&lUlriam &7&l>>&r"
 #Les secondes que le joueur doit attendre pour voler quelque chose.
 seconds: 5
 
-#Distance avant de fermer le gui du voleur
-distance: 4
+#La distance est calculé en vector, ce ne sont pas de réels blocs, 10 fait 4 blocks
+# donc 2.5 fait 1 bloc
+distance: 10
+debugDistance: false
 
 #Inventaire quand la personne vol
 inventory:
-  name: "Items de %target%"
+  name: "Poche ouverte"
   size: 9
 
 #Les items non voulus
