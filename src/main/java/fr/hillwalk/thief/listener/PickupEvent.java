@@ -3,6 +3,7 @@ package fr.hillwalk.thief.listener;
 import fr.hillwalk.thief.Thief;
 import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,18 +35,22 @@ public class PickupEvent implements Listener {
 
 
                         //Si les deux items se correspondent alors on effectue les actions.
-                        if(e.getItem().getItemStack().getType().equals(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType())){
+                        if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i) != null){
+                            if(e.getItem().getItemStack().getType() == Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType() && Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() == 1){
 
-                            Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType(), Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() + e.getItem().getItemStack().getAmount()));
-                            target.updateInventory();
-                            return;
+                                Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(e.getItem().getItemStack().getType(), 1));
+                            } else {
+                                Thief.instance.invStealed.get(target.getUniqueId()).removeItem(new ItemStack(e.getItem().getItemStack().getType(), e.getItem().getItemStack().getAmount()));
+                            }
+
+                        } else {
+                            continue;
                         }
-
 
 
                     }
 
-                    util.resetAll(Thief.instance.takePlayer.get(target.getUniqueId()));
+
 
                 }
 

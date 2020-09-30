@@ -144,8 +144,6 @@ public class InteractionPlayer implements Listener {
 
                                 if(rand.nextInt(2) == 1){
                                     item.setType(Material.AIR);
-                                } else {
-
                                 }
 
                                 Thief.instance.invStealed.get(player.getUniqueId()).setItem(itemsSlot, item);

@@ -40,6 +40,7 @@ public class InventoryClick implements Listener {
             //On interdit la personne de faire shiftClick
             if(e.getClick().isShiftClick()){
                 e.setCancelled(true);
+                return;
             }
 
         //On cancel l'action
