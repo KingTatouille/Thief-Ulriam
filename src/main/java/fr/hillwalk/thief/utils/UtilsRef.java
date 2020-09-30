@@ -96,6 +96,7 @@ public class UtilsRef {
 
     public void resetAll(Player player){
 
+
         for(Player target : Bukkit.getServer().getOnlinePlayers()){
 
 
@@ -117,26 +118,15 @@ public class UtilsRef {
 
 
         //ON remet à jour les hashmaps
+        //On dégage tout ce qui a été fait.
+        Thief.instance.stealing.put(player.getUniqueId(), false);
         Thief.instance.takePlayer.remove(player.getUniqueId());
+        Thief.instance.bossBar.remove(player.getUniqueId());
+        Thief.instance.taskId.remove(player.getUniqueId());
+        Thief.instance.invStealed.remove(player.getUniqueId());
 
 
 
-    }
-
-    public Location getLoc(Player player){
-
-        int count = 0;
-
-        while(count < 50){
-            Location loc = Thief.instance.takePlayer.get(player.getUniqueId()).getLocation();
-            System.out.println(loc);
-            count++;
-            return loc;
-
-        }
-
-
-    return null;
     }
 
 

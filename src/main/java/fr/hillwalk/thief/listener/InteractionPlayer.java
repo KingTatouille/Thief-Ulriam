@@ -4,6 +4,7 @@ import fr.hillwalk.thief.Thief;
 import fr.hillwalk.thief.configs.Messages;
 import fr.hillwalk.thief.configs.PlayersConfig;
 import fr.hillwalk.thief.guis.GuiSteal;
+import fr.hillwalk.thief.runnable.TaskForward;
 import fr.hillwalk.thief.utils.UtilsRef;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,14 +47,15 @@ public class InteractionPlayer implements Listener {
         if(!Thief.instance.isThief.get(e.getPlayer().getUniqueId()))return;
         if(Thief.instance.stealing.get(e.getPlayer().getUniqueId()))return;
 
-        //Instance
-        final GuiSteal gui = new GuiSteal(((Player) e.getRightClicked()));
-        final UtilsRef util = new UtilsRef();
-
 
 
 
         if(e.getRightClicked() instanceof Player){
+
+            //Instance
+            final GuiSteal gui = new GuiSteal(((Player) e.getRightClicked()));
+            final UtilsRef util = new UtilsRef();
+            final TaskForward secondTask = new TaskForward(e.getPlayer());
 
 
             if(e.getHand() == EquipmentSlot.HAND && e.getPlayer().isSneaking()){
@@ -74,8 +76,8 @@ public class InteractionPlayer implements Listener {
                 //Contenu RUNNABLE
                 this.task = new BukkitRunnable() {
 
-                    int seconds = Thief.instance.getConfig().getInt("seconds") * 4;
-                    int secondesMax = Thief.instance.getConfig().getInt("seconds") * 4;
+                    int seconds = Thief.instance.getConfig().getInt("seconds") * 20;
+                    int secondesMax = Thief.instance.getConfig().getInt("seconds") * 20;
                     int secondes = 1;
                     int itemsSlot = 0;
                     Location loc = e.getRightClicked().getLocation();
@@ -94,7 +96,7 @@ public class InteractionPlayer implements Listener {
                             System.out.println(e.getPlayer().getLocation().distanceSquared(loc));
                         }
 
-                        if(e.getPlayer().getLocation().distanceSquared(loc) > Thief.instance.getConfig().getInt("distance")) {
+                        if(e.getPlayer().getLocation().distanceSquared(loc) > Thief.instance.getConfig().getInt("distance") || e.getRightClicked().getLocation().distanceSquared(e.getPlayer().getLocation()) > Thief.instance.getConfig().getInt("distance")) {
 
                             player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("bossbar.distance")));
 
@@ -103,7 +105,7 @@ public class InteractionPlayer implements Listener {
                             this.cancel();
                         }
 
-                        if(!player.isSneaking() && seconds >= 5) {
+                        if(!player.isSneaking() && seconds >= 1) {
 
                             player.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("bossbar.pressShift")));
 
@@ -160,6 +162,9 @@ public class InteractionPlayer implements Listener {
                             //Effacement de la liste contenant les matériaux.
                             Thief.instance.list.clear();
 
+                            Thief.instance.taskId.remove(player.getUniqueId());
+                            secondTask.runTaskTimer(Thief.instance, 0, 10);
+
 
                         } else {
                             try{
@@ -171,6 +176,8 @@ public class InteractionPlayer implements Listener {
                                 bossBar.setTitle(replace);
                                 bossBar.setProgress(result / 100);
                                 secondes++;
+
+
                             } catch (IllegalArgumentException e){
                                 e.getStackTrace();
                             }
@@ -178,7 +185,7 @@ public class InteractionPlayer implements Listener {
 
 
                     }
-                }.runTaskTimer(Thief.instance, 0, 5);
+                }.runTaskTimer(Thief.instance, 0, 1);
 
 
                 bossBar.setVisible(true);

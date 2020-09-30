@@ -37,36 +37,51 @@ public class InventoryClick implements Listener {
 
         if(e.getView().getTitle().equalsIgnoreCase(replace)){
 
+            //On interdit la personne de faire shiftClick
+            if(e.getClick().isShiftClick()){
+                e.setCancelled(true);
+            }
+
         //On cancel l'action
         e.setCancelled(true);
 
-        //Si l'item est null alors on return, si il est bon on ajoute
+        //Si on ferme l'inventaire et que le joueur n'a rien selectionné.
         if(e.getCurrentItem() == null){
+
             return;
         } else {
             e.getView().getPlayer().getInventory().addItem(e.getCurrentItem());
+            //On verifie tout les joueurs et ensuite on retire l'item pris
+
+
         }
 
-        //On verifie tout les joueurs et ensuite on retire l'item pris
-        for(Player player : Bukkit.getServer().getOnlinePlayers()){
 
-            if(player.getName().equalsIgnoreCase(Thief.instance.takePlayer.get(e.getWhoClicked().getUniqueId()).getName())){
-               for(ItemStack item : player.getInventory().getStorageContents()){
+            //On verifie tout les joueurs et ensuite on retire l'item pris
+            for(Player player : Bukkit.getServer().getOnlinePlayers()){
 
-                       player.getInventory().remove(e.getCurrentItem());
-                       e.getView().getPlayer().closeInventory();
+                if(player.getName().equalsIgnoreCase(Thief.instance.takePlayer.get(e.getWhoClicked().getUniqueId()).getName())){
+                    for(ItemStack item : player.getInventory().getContents()){
 
-                       //On clear l'inventaire
-                       Thief.instance.invStealed.remove(e.getWhoClicked().getUniqueId());
+                        if(e.getCurrentItem().getAmount() == 1){
+                            player.getInventory().removeItem(new ItemStack(e.getCurrentItem().getType(), 1));
 
-                       Thief.instance.list.clear();
-                       return;
-                   }
+                        } else {
+                            player.getInventory().removeItem(new ItemStack(e.getCurrentItem().getType(), e.getCurrentItem().getAmount()));
+                        }
+                        e.getView().getPlayer().closeInventory();
+                        return;
+                    }
 
 
+                }
             }
 
-        }
+            e.getView().getPlayer().closeInventory();
+            //On clear l'inventaire
+            util.resetAll((Player)e.getWhoClicked());
+
+            Thief.instance.list.clear();
         }
 
     } catch (NullPointerException ex){

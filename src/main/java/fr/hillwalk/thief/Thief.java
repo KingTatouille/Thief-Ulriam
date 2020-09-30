@@ -31,6 +31,7 @@ public class Thief extends JavaPlugin {
     public HashMap<UUID, Inventory> invStealed = new HashMap<UUID, Inventory>();
     public HashMap<UUID, Player> takePlayer = new HashMap<UUID, Player>();
     public HashMap<UUID, Integer> taskId = new HashMap<UUID, Integer>();
+    public HashMap<UUID, Integer> taskCloseInvId = new HashMap<UUID, Integer>();
 
     //Si le joueur ne peut pas enlever la barboss
     public HashMap<UUID, BossBar> bossBar = new HashMap<UUID, BossBar>();
@@ -68,7 +69,9 @@ public class Thief extends JavaPlugin {
         pm.registerEvents(new InteractionPlayer(), this);
         pm.registerEvents(new InventoryClick(), this);
         pm.registerEvents(new PlayerDrop(), this);
+        pm.registerEvents(new PickupEvent(), this);
         pm.registerEvents(new PlayerDeath(), this);
+        pm.registerEvents(new CloseInvEvent(), this);
 
 
         prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix") + " ");
