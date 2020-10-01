@@ -46,11 +46,16 @@ public class PlayerDrop implements Listener {
                         //Si les deux items se correspondent alors on effectue les actions.
                         if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i) != null){
 
-                            if(e.getItemDrop().getItemStack().getType() == Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType() && Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() == 1){
+                            if(e.getItemDrop().getItemStack().getType() == Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType()){
 
-                                Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Material.AIR));
-                            } else {
-                                Thief.instance.invStealed.get(target.getUniqueId()).removeItem(new ItemStack(e.getItemDrop().getItemStack().getType(), e.getItemDrop().getItemStack().getAmount()));
+                                if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() == 1){
+                                    Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Material.AIR));
+                                    target.updateInventory();
+                                }
+
+                                System.out.println("ça passe");
+                                Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType(), Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() - e.getItemDrop().getItemStack().getAmount()));
+                                target.updateInventory();
                             }
 
                     } else {

@@ -81,6 +81,7 @@ public class InteractionPlayer implements Listener {
                     int secondes = 1;
                     int itemsSlot = 0;
                     Location loc = e.getRightClicked().getLocation();
+                    List<ItemStack> unique = new ArrayList<ItemStack>();
                     Random rand = new Random();
 
 
@@ -128,7 +129,8 @@ public class InteractionPlayer implements Listener {
 
                                             if(!util.checkItemsLore(item)){
 
-                                                Thief.instance.list.add(item);
+
+                                                    Thief.instance.list.add(item);
 
                                             }
                                         }
@@ -140,15 +142,38 @@ public class InteractionPlayer implements Listener {
 
                             }
 
-                            for(ItemStack item : Thief.instance.list){
+                            for(int i = 0; i < Thief.instance.list.size(); i++){
+
+                                if(itemsSlot <= Thief.instance.getConfig().getInt("inventory.size") - 1){
+
+
 
                                 if(rand.nextInt(2) == 1){
-                                    item.setType(Material.AIR);
+                                    Thief.instance.invStealed.get(player.getUniqueId()).setItem(itemsSlot, new ItemStack(Material.AIR));
+                                } else {
+
+                                    ItemStack item = Thief.instance.list.get(rand.nextInt(Thief.instance.list.size()));
+                                    if(!unique.contains(item)){
+
+                                        unique.add(item);
+                                        Thief.instance.invStealed.get(player.getUniqueId()).setItem(itemsSlot, item);
+
+                                    } else {
+                                        Thief.instance.invStealed.get(player.getUniqueId()).setItem(itemsSlot, new ItemStack(Material.AIR));
+                                    }
+
+
                                 }
 
-                                Thief.instance.invStealed.get(player.getUniqueId()).setItem(itemsSlot, item);
                                 itemsSlot++;
 
+                                    if(itemsSlot == Thief.instance.getConfig().getInt("inventory.size") - 1){
+
+                                        unique.clear();
+
+                                    }
+
+                                }
                             }
 
                             //On ouvre l'inventaire instancié au voleur
@@ -162,6 +187,7 @@ public class InteractionPlayer implements Listener {
 
                             Thief.instance.taskId.remove(player.getUniqueId());
                             secondTask.runTaskTimer(Thief.instance, 0, 10);
+
 
 
                         } else {

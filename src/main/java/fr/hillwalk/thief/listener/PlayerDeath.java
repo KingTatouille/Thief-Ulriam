@@ -38,16 +38,14 @@ public class PlayerDeath implements Listener {
                         //On envoit un message au voleur
                         target.sendMessage(Thief.prefix + util.getColor(Messages.getMessages().getString("cancelled.deathPlayer")));
 
-                        //On reset l'inventaire ayant eu une intéraction
-                        gui.inventoryReset(target);
 
+                        util.resetAll(target);
                         return;
 
                     }
 
 
                 }
-                gui.inventoryReset(e.getEntity());
             }
 
 

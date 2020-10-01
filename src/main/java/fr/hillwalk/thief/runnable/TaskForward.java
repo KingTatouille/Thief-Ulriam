@@ -71,7 +71,7 @@ public class TaskForward extends BukkitRunnable {
                 }
 
 
-            gui.inventoryReset(player);
+            util.resetAll(player);
             this.cancel();
 
         } else {

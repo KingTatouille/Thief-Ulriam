@@ -60,15 +60,6 @@ public class GuiSteal {
 
     }
 
-    public void inventoryReset(final HumanEntity ent) {
-
-
-        Thief.instance.invStealed.remove(ent.getUniqueId());
-        Thief.instance.takePlayer.remove(ent.getUniqueId());
-
-
-
-    }
 
 
 }
