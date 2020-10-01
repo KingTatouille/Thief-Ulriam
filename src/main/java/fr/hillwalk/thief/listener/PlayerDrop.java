@@ -53,7 +53,6 @@ public class PlayerDrop implements Listener {
                                     target.updateInventory();
                                 }
 
-                                System.out.println("ça passe");
                                 Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType(), Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() - e.getItemDrop().getItemStack().getAmount()));
                                 target.updateInventory();
                             }
@@ -68,8 +67,6 @@ public class PlayerDrop implements Listener {
 
 
             }
-
-
 
 
         } catch (NullPointerException ex){

@@ -21,7 +21,6 @@ public class PickupEvent implements Listener {
         if(Thief.instance.takePlayer.get(e.getPlayer().getUniqueId()) == null){
             return;
         }
-        System.out.println("1");
 
         UtilsRef util = new UtilsRef();
 
@@ -31,7 +30,6 @@ public class PickupEvent implements Listener {
 
                 //On prend le nom du voleur
                 if(target.getName().equalsIgnoreCase(Thief.instance.takePlayer.get(e.getPlayer().getUniqueId()).getName())){
-                    System.out.println("2");
 
                     for(int i = 0; i <= Thief.instance.getConfig().getInt("inventory.size") - 1; i++){
 
@@ -40,14 +38,12 @@ public class PickupEvent implements Listener {
                         if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i) != null){
                             if(e.getItem().getItemStack().getType() == Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType()){
 
-                                if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() == 1){
-                                    Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Material.AIR));
-                                    target.updateInventory();
+                                if(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() <= 1){
+                                    Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(e.getItem().getItemStack().getType(), 1));
+                                    return;
                                 }
 
-                                System.out.println("Il doit augmenter");
                                 Thief.instance.invStealed.get(target.getUniqueId()).setItem(i, new ItemStack(Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getType(), Thief.instance.invStealed.get(target.getUniqueId()).getItem(i).getAmount() + e.getItem().getItemStack().getAmount()));
-                                target.updateInventory();
                             }
 
                         } else {
